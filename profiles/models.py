@@ -6,7 +6,6 @@ User = get_user_model()
 
 class Profile(models.Model):
     owner = models.OneToOneField(User, on_delete=models.CASCADE)
-    name = models.CharField(max_length=50, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
     image = models.ImageField(
         upload_to='wrm/profile', default='../default_profile_lcovgw'
