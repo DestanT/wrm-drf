@@ -56,6 +56,7 @@ INSTALLED_APPS = [
     'playlists',
     'ratings',
     'seasons',
+    'participants',
 ]
 
 MIDDLEWARE = [
