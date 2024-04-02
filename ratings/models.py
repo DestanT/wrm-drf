@@ -18,7 +18,9 @@ class Rating(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
 
     class Meta:
-        unique_together = ('owner', 'playlist')
+        constraints = [
+            models.UniqueConstraint(fields=['owner', 'playlist'], name='unique_rating_per_user_per_playlist')
+        ]
 
     def __str__(self):
         return f"{self.owner} rated {self.playlist} a {self.score}"
