@@ -1,7 +1,7 @@
 from rest_framework import generics, permissions
 from wrm_api.permissions import IsOwnerOrReadOnly
 from .models import Rating
-from .serializers import RatingSerializer, RatingDetailSerializer
+from .serializers import RatingSerializer
 
 
 class RatingList(generics.ListCreateAPIView):
@@ -15,5 +15,5 @@ class RatingList(generics.ListCreateAPIView):
 
 class RatingDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = Rating.objects.all()
-    serializer_class = RatingDetailSerializer
+    serializer_class = RatingSerializer
     permission_classes = [IsOwnerOrReadOnly]
