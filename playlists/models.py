@@ -27,8 +27,9 @@ class Playlist(models.Model):
             models.UniqueConstraint(fields=['owner', 'season'], name='unique_season_playlist_per_user')
         ]
 
+    # Allows updates, while restricting the user to one playlist per season
     def save(self, *args, **kwargs):
-        if Playlist.objects.filter(owner=self.owner, season=self.season).exists():
+        if Playlist.objects.filter(owner=self.owner, season=self.season).exclude(pk=self.pk).exists():
             raise ValidationError('You can only submit one playlist per season')
         super().save(*args, **kwargs)
 
