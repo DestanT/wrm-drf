@@ -38,6 +38,3 @@ class RatingSerializer(serializers.ModelSerializer):
                 'detail': 'possible duplicate'
             }) from exc
 
-
-class RatingDetailSerializer(RatingSerializer):
-    playlist = serializers.ReadOnlyField(source='playlist.id')
