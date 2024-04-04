@@ -39,6 +39,5 @@ class RatingSerializer(serializers.ModelSerializer):
             }) from exc
 
 
-
 class RatingDetailSerializer(RatingSerializer):
     playlist = serializers.ReadOnlyField(source='playlist.id')
