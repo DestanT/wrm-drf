@@ -1,4 +1,5 @@
 from django.db import models
+from django.core.exceptions import ValidationError
 from django.contrib.auth import get_user_model
 
 User = get_user_model()
@@ -11,6 +12,7 @@ class Playlist(models.Model):
 
     spotify_id = models.CharField(max_length=255)
     owner = models.ForeignKey(User, on_delete=models.CASCADE)
+    season = models.ForeignKey('seasons.Season', on_delete=models.CASCADE, related_name='playlists')
     name = models.CharField(max_length=255)
     image = models.URLField(max_length=255)
     type = models.CharField(max_length=1, choices=PLAYLIST_TYPE)
@@ -21,6 +23,14 @@ class Playlist(models.Model):
 
     class Meta:
         ordering = ['-added_on']
+        constraints = [
+            models.UniqueConstraint(fields=['owner', 'season'], name='unique_season_playlist_per_user')
+        ]
+
+    def save(self, *args, **kwargs):
+        if Playlist.objects.filter(owner=self.owner, season=self.season).exists():
+            raise ValidationError('You can only submit one playlist per season')
+        super().save(*args, **kwargs)
 
     def __str__(self):
         return f'{self.name}'
