@@ -15,8 +15,8 @@ class Playlist(models.Model):
     image = models.URLField(max_length=255)
     type = models.CharField(max_length=1, choices=PLAYLIST_TYPE)
     added_on = models.DateTimeField(auto_now_add=True)
-    total_tracks = models.IntegerField()
-    duration = models.BigIntegerField()
+    total_tracks = models.PositiveIntegerField()
+    duration = models.PositiveBigIntegerField()
     external_url = models.URLField(max_length=255)
 
     class Meta:
