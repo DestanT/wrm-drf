@@ -27,4 +27,5 @@ urlpatterns = [
     path('', include('profiles.urls')),
     path('', include('seasons.urls')),
     path('', include('playlists.urls')),
+    path('', include('ratings.urls')),
 ]
