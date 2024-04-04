@@ -89,7 +89,6 @@ INSTALLED_APPS = [
     'playlists',
     'ratings',
     'seasons',
-    'participants',
 ]
 
 SITE_ID = 1
