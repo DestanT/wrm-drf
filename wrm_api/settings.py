@@ -29,9 +29,10 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': [(
-        'rest_framework.authentication.SessionAuthentication'
-        if 'DEV' in os.environ
-        else 'dj_rest_auth.jwt_auth.JWTCookieAuthentication'
+        # 'rest_framework.authentication.SessionAuthentication'
+        # if 'DEV' in os.environ
+        # else
+        'dj_rest_auth.jwt_auth.JWTCookieAuthentication'
     )],
     'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
     'PAGE_SIZE': 10,
@@ -60,7 +61,7 @@ REST_AUTH_SERIALIZERS = {
 SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = 'DEV' in os.environ
 
 ALLOWED_HOSTS = []
 
@@ -131,15 +132,25 @@ WSGI_APPLICATION = 'wrm_api.wsgi.application'
 if 'DEV' in os.environ:
     DATABASES = {
         'default': {
-            'ENGINE': 'django.db.backends.sqlite3',
-            'NAME': BASE_DIR / 'db.sqlite3',
+            'ENGINE': 'django.db.backends.postgresql',
+            'NAME': os.environ.get('DEV_DB_NAME'),
+            'USER': os.environ.get('DEV_DB_USER'),
+            'PASSWORD': os.environ.get('DEV_DB_PASSWORD'),
+            'HOST': 'localhost',
+            'PORT': '5432',
         }
     }
 else:
     DATABASES = {
-        'default': dj_database_url.parse(os.environ['DATABASE_URL']),
+        'default': {
+            'ENGINE': 'django.db.backends.postgresql',
+            'NAME': os.environ.get('PROD_DB_NAME'),
+            'USER': os.environ.get('PROD_DB_USER'),
+            'PASSWORD': os.environ.get('PROD_DB_PASSWORD'),
+            'HOST': 'localhost',
+            'PORT': '5432',
+        }
     }
-    print('connected to db')
 
 # Password validation
 # https://docs.djangoproject.com/en/4.2/ref/settings/#auth-password-validators
