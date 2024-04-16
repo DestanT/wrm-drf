@@ -42,7 +42,10 @@ REST_FRAMEWORK = {
 if 'DEV' not in os.environ:
     REST_FRAMEWORK['DEFAULT_RENDERER_CLASSES'] = [
         'rest_framework.renderers.JSONRenderer',
-    ]
+    ],
+    # Possible additions for production
+    # SESSION_COOKIE_SECURE = True
+    # CSRF_COOKIE_SECURE = True
 
 REST_USE_JWT = True
 JWT_AUTH_SECURE = True
