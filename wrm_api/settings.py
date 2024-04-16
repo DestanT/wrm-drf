@@ -90,6 +90,7 @@ INSTALLED_APPS = [
     'dj_rest_auth.registration',
     'corsheaders',
 
+    'api_auth',
     'profiles',
     'playlists',
     'ratings',
