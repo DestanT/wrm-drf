@@ -21,11 +21,11 @@ from .views import root_route
 urlpatterns = [
     path('', root_route),
     path('admin/', admin.site.urls),
-    path('api-auth/', include('rest_framework.urls')),
-    path('dj-rest-auth/', include('dj_rest_auth.urls')),
-    path('dj-rest-auth/registration/', include('dj_rest_auth.registration.urls')),
-    path('', include('profiles.urls')),
-    path('', include('seasons.urls')),
-    path('', include('playlists.urls')),
-    path('', include('ratings.urls')),
+    path('api/api-auth/', include('rest_framework.urls')),
+    path('api/dj-rest-auth/', include('dj_rest_auth.urls')),
+    path('api/dj-rest-auth/registration/', include('dj_rest_auth.registration.urls')),
+    path('api/', include('profiles.urls')),
+    path('api/', include('seasons.urls')),
+    path('api/', include('playlists.urls')),
+    path('api/', include('ratings.urls')),
 ]
