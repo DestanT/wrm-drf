@@ -204,3 +204,9 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+# Spotify settings
+if 'DEV' in os.environ:
+    SPOTIFY_REDIRECT_URI = 'http://localhost:8081/spotify'
+else:
+    SPOTIFY_REDIRECT_URI = '' # SET Production URL
