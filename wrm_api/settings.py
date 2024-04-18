@@ -66,7 +66,7 @@ SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = 'DEV' in os.environ
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['10.0.2.2', 'localhost']
 
 
 # Application definition
@@ -207,6 +207,6 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # Spotify settings
 if 'DEV' in os.environ:
-    SPOTIFY_REDIRECT_URI = 'http://localhost:8081/spotify'
+    SPOTIFY_REDIRECT_URI = 'http://localhost:8081'
 else:
     SPOTIFY_REDIRECT_URI = '' # SET Production URL
