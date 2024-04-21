@@ -28,4 +28,5 @@ urlpatterns = [
     path('api/', include('seasons.urls')),
     path('api/', include('playlists.urls')),
     path('api/', include('ratings.urls')),
+    path('api/', include('api_auth.urls')),
 ]
