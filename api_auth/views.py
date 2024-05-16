@@ -41,9 +41,10 @@ def authorise_spotify(request):
     return JsonResponse({'auth_url': auth_url})
 
 
+@login_required
 def get_access_token(request):
     code = request.GET.get('code')
-    code_verifier = request.session.get('code_verifier')
+    code_verifier = request.GET.get('code_verifier')
 
     if not code_verifier:
         return JsonResponse({'error': 'No code verifier found in session'}, status=400)
