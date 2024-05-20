@@ -1,12 +1,23 @@
-from dj_rest_auth.serializers import UserDetailsSerializer
-from rest_framework import serializers
+from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 
 
-class CurrentUserSerializer(UserDetailsSerializer):
-    profile_id = serializers.ReadOnlyField(source='profile.id')
-    profile_image = serializers.ReadOnlyField(source='profile.image.url')
+class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
+    @classmethod
+    def get_token(cls, user):
+        token = super().get_token(user)
 
-    class Meta(UserDetailsSerializer.Meta):
-        fields = UserDetailsSerializer.Meta.fields + (
-            'profile_id', 'profile_image'
-        )
+        # Add custom claims
+        token['username'] = user.username
+        token['profile_image'] = user.profile.image.url
+        token['is_staff'] = user.is_staff
+        token['is_superuser'] = user.is_superuser
+        token['is_active'] = user.is_active
+        token['id'] = user.id
+
+        return token
+
+    def create(self, validated_data):
+        pass
+
+    def update(self, instance, validated_data):
+        pass
