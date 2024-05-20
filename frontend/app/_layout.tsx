@@ -4,6 +4,7 @@ import { Slot } from 'expo-router';
 import * as SplashScreen from 'expo-splash-screen';
 import { useEffect } from 'react';
 import { SessionProvider } from '@/contexts/AuthContext';
+import '@/api/axiosDefaults';
 
 export {
   // Catch any errors thrown by the Layout component.
