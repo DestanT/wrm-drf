@@ -1,11 +1,11 @@
-import { useForm, SubmitHandler } from "react-hook-form"
+import { useForm, SubmitHandler, Controller } from "react-hook-form"
 import { yupResolver } from "@hookform/resolvers/yup"
 import { loginValidation } from "../../constants/YupValidation"
-import axios from "axios"
 import { useSession } from "@/contexts/AuthContext"
 import { router } from "expo-router"
+import { View } from "../Themed"
+import { Button, TextInput } from "react-native"
 
-// Define the schema for the form
 
 type LoginInputs = {
   username: string;
@@ -14,7 +14,7 @@ type LoginInputs = {
 
 export default function LoginForm() {
   const {
-    register,
+    control,
     handleSubmit,
     formState: { errors }, setError
   } = useForm<LoginInputs>({
@@ -30,21 +30,47 @@ export default function LoginForm() {
     } catch (error) {
       setError('username', {
         type: 'manual',
-        message: 'Invalid credentials'
+        message: 'Invalid username or password'
       });
     }
   }
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)}>
-      <label>Username</label>
-      <input {...register("username")} />
+    <View>
+      <Controller
+        control={control}
+        rules={{
+          required: true,
+        }}
+        render={({ field: { onChange, onBlur, value } }) => (
+          <TextInput
+            onBlur={onBlur}
+            onChangeText={onChange}
+            value={value}
+            placeholder="Username"
+          />
+        )}
+        name="username"
+      />
       {errors.username && <span>{errors.username.message}</span>}
-
-      <input {...register("password")} />
+      <Controller
+        control={control}
+        rules={{
+          required: true,
+        }}
+        render={({ field: { onChange, onBlur, value } }) => (
+          <TextInput
+            onBlur={onBlur}
+            onChangeText={onChange}
+            value={value}
+            placeholder="Password"
+          />
+        )}
+        name="password"
+      />
       {errors.password && <span>{errors.password.message}</span>}
 
-      <input type="submit" value={isLoading ? 'Signing in...' : 'Sign In'} disabled={isLoading} />
-    </form>
+      <Button title={isLoading ? 'Signing in...' : 'Sign In'} onPress={handleSubmit(onSubmit)} disabled={isLoading} />
+    </View>
   )
 }
