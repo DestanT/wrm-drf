@@ -10,6 +10,7 @@ from django.conf import settings
 from django.utils import timezone
 from django.contrib.auth.decorators import login_required
 from .models import SpotifyToken
+from rest_framework_simplejwt.authentication import JWTAuthentication
 
 
 def generate_code_verifier():
@@ -41,10 +42,11 @@ def authorise_spotify(request):
     return JsonResponse({'auth_url': auth_url})
 
 
-@login_required
+# @login_required
 def get_access_token(request):
     code = request.GET.get('code')
     code_verifier = request.GET.get('code_verifier')
+    print("user: ", request.user)
 
     if not code_verifier:
         return JsonResponse({'error': 'No code verifier found in session'}, status=400)
@@ -66,15 +68,23 @@ def get_access_token(request):
         'https://accounts.spotify.com/api/token', data=urlencode(payload), headers=headers, timeout=10
     )
     data = response.json()
+    print("data: ", data)
 
     if response.status_code != 200:
         return JsonResponse(data, status=response.status_code)
+    
+    # FIX: Middleware - request.user is not correct! Below is a temporary fix
+    auth = JWTAuthentication()
+    header = auth.get_header(request)
+    raw_token = auth.get_raw_token(header)
+    validated_token = auth.get_validated_token(raw_token)
+    user = auth.get_user(validated_token)
 
     # Update or create SpotifyToken and attach it to the user
-    user = request.user
+    # user = request.user  # FIX: Middleware - request.user is not correct! Re-use when fixed
     expires_at = timezone.now() + timedelta(seconds=data['expires_in'])
 
-    SpotifyToken.objects.update_or_create(
+    done = SpotifyToken.objects.update_or_create(
         owner=user,
         defaults={
             'access_token': data['access_token'],
@@ -83,6 +93,7 @@ def get_access_token(request):
             'refresh_token': data.get('refresh_token', ''),
         }
     )
+    print("done: ", done)
 
     return JsonResponse(data)
 
