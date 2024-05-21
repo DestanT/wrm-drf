@@ -36,6 +36,21 @@ export async function setStorageItemAsync(key: string, value: any | null) {
   }
 }
 
+export async function getStorageItemAsync(key: string) {
+  if (Platform.OS === 'web') {
+    try {
+      const value = localStorage.getItem(key);
+      return value ? JSON.parse(value) : null;
+    } catch (e) {
+      console.error('Local storage is unavailable:', e);
+      return null;
+    }
+  } else {
+    const value = await SecureStore.getItemAsync(key);
+    return value ? JSON.parse(value) : null;
+  }
+}
+
 export function useStorageState(key: string): UseStateHook<string> {
   // Public
   const [state, setState] = useAsyncState<string>();
