@@ -2,6 +2,7 @@
 import { createContext, useContext } from 'react';
 import { useStorageState } from '../hooks/useStorageState';
 import axios from 'axios';
+import "core-js/stable/atob"; // Required for atob to work in React Native
 
 const AuthContext = createContext<{
   signIn: (username: string, password: string) => Promise<void>;
@@ -32,16 +33,16 @@ export function SessionProvider(props: React.PropsWithChildren) {
 
   const signIn = async (username: string, password: string) => {
     try {
-      const response = await axios.post("dj-rest-auth/login/", { username, password
+      const response = await axios.post("token/", { username, password
       });
-
+      
       // Save the session token
-      setSession(response.data.key);
+      setSession(response.data);
     } catch (error) {
       console.error('Failed to sign in:', error);
       setSession(null);
     }
-  }
+  };
 
   return (
     <AuthContext.Provider
