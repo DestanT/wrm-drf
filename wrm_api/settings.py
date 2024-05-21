@@ -245,5 +245,6 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 # Spotify settings
 if 'DEV' in os.environ:
     SPOTIFY_REDIRECT_URI = 'http://localhost:8081'
+    # SPOTIFY_REDIRECT_URI = 'exp://172.22.164.69:8081'  \\ For andorid emulator
 else:
     SPOTIFY_REDIRECT_URI = '' # SET Production URL
