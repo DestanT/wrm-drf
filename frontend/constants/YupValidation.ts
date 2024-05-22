@@ -21,3 +21,12 @@ export const signUpValidation = yup
       .required('Confirm your password.'),
   })
   .required();
+
+export const spotifySearchValidation = yup
+  .object({
+    query: yup
+      .string()
+      // .url('Enter a valid URL.') NOTE: TURNED OFF FOR TESTING
+      .required('Enter a valid URL.'),
+  })
+  .required();
