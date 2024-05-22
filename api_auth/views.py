@@ -46,7 +46,7 @@ def authorise_spotify(request):
 def get_access_token(request):
     code = request.GET.get('code')
     code_verifier = request.GET.get('code_verifier')
-    print("user: ", request.user)
+    print("(Not Working!) user: ", request.user)
 
     if not code_verifier:
         return JsonResponse({'error': 'No code verifier found in session'}, status=400)
@@ -72,10 +72,11 @@ def get_access_token(request):
 
     if response.status_code != 200:
         return JsonResponse(data, status=response.status_code)
-    
+
     # FIX: Middleware - request.user is not correct! Below is a temporary fix
     auth = JWTAuthentication()
     header = auth.get_header(request)
+    print("header: ", header)
     raw_token = auth.get_raw_token(header)
     validated_token = auth.get_validated_token(raw_token)
     user = auth.get_user(validated_token)
@@ -135,3 +136,40 @@ def refresh_access_token(request):
         return JsonResponse(data)
     except SpotifyToken.DoesNotExist:
         return JsonResponse({'error': 'No existing token found for this user'}, status=404)
+
+
+# @login_required
+def search_spotify(request):
+    query = request.GET.get('query')
+    print("query: ", query)
+
+    # FIX: Middleware - request.user is not correct! Below is a temporary fix
+    auth = JWTAuthentication()
+    header = auth.get_header(request)
+    print("header: ", header)
+    raw_token = auth.get_raw_token(header)
+    print("raw_token: ", raw_token)
+    validated_token = auth.get_validated_token(raw_token)
+    print("validated_token: ", validated_token)
+    user = auth.get_user(validated_token)
+    print('user: ', user)
+
+    token = SpotifyToken.objects.get(owner=user)
+    print('token: ', token)
+    access_token = token.access_token
+
+
+    headers = {
+        'Authorization': f'Bearer {access_token}',
+    }
+
+    response = requests.get(
+        f'https://api.spotify.com/v1/albums/{query}', headers=headers, timeout=10
+    )
+    data = response.json()
+    print("data: ", data)
+
+    if response.status_code != 200:
+        return JsonResponse(data, status=response.status_code)
+
+    return JsonResponse(data)
