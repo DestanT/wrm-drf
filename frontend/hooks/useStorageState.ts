@@ -16,22 +16,23 @@ function useAsyncState<T>(
   ) as UseStateHook<T>;
 }
 
-export async function setStorageItemAsync(key: string, value: any | null) {
+export async function setStorageItemAsync(key: string, value: object | null) {
+  const serializedValue = value ? JSON.stringify(value) : null;
   if (Platform.OS === 'web') {
     try {
-      if (value === null) {
+      if (serializedValue === null) {
         localStorage.removeItem(key);
       } else {
-        localStorage.setItem(key, JSON.stringify(value));
+        localStorage.setItem(key, serializedValue);
       }
     } catch (e) {
       console.error('Local storage is unavailable:', e);
     }
   } else {
-    if (value == null) {
+    if (serializedValue == null) {
       await SecureStore.deleteItemAsync(key);
     } else {
-      await SecureStore.setItemAsync(key, JSON.stringify(value));
+      await SecureStore.setItemAsync(key, serializedValue);
     }
   }
 }
@@ -51,30 +52,31 @@ export async function getStorageItemAsync(key: string) {
   }
 }
 
-export function useStorageState(key: string): UseStateHook<string> {
+export function useStorageState(key: string): UseStateHook<object> {
   // Public
-  const [state, setState] = useAsyncState<string>();
+  const [state, setState] = useAsyncState<object>();
 
   // Get
   React.useEffect(() => {
     if (Platform.OS === 'web') {
       try {
         if (typeof localStorage !== 'undefined') {
-          setState(localStorage.getItem(key));
+          const storedValue = localStorage.getItem(key);
+          setState(storedValue ? JSON.parse(storedValue) : null);
         }
       } catch (e) {
         console.error('Local storage is unavailable:', e);
       }
     } else {
       SecureStore.getItemAsync(key).then((value) => {
-        setState(value);
+        setState(value ? JSON.parse(value) : null);
       });
     }
   }, [key]);
 
   // Set
   const setValue = React.useCallback(
-    (value: string | null) => {
+    (value: object | null) => {
       setState(value);
       setStorageItemAsync(key, value);
     },
