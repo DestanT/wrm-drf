@@ -148,6 +148,10 @@
 
 ### The Database
 
+![Database Schema](docs/images/database-schema.png)
+
+* Used drawsql.app to make the database schema
+
 #### User Model
 
 The user model is a default model provided by Django all-auth.
