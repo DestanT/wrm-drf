@@ -267,6 +267,11 @@ This file sets up Axios, a tool for HTTP requests in web apps, with '/api' as th
 
 Both instances are modified in AuthContext.tsx (NOTE: Link here). (NOTE: Talk about what functionality was built in at the interceptors once complete!)
 
+Axios interceptors:
+request - sets auth headers if session is available (ie a user is logged in), refreshes access token, and updates session with new access_token (NOTE: no need every time; future implementations should address this better).
+response - needs work
+
+
 <p align="right">
   <a href="#">Back to the top</a>
 </p>
