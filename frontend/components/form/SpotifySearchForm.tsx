@@ -1,16 +1,15 @@
-import { useForm, SubmitHandler, Controller } from "react-hook-form"
-import { yupResolver } from "@hookform/resolvers/yup"
-import { spotifySearchValidation } from "../../constants/YupValidation"
-import { useSession } from "@/contexts/AuthContext"
-import { router } from "expo-router"
-import { View } from "../Themed"
-import { Button, TextInput } from "react-native"
-import { axiosRequest } from "@/api/axiosDefaults"
-
+import { useForm, SubmitHandler, Controller } from 'react-hook-form';
+import { yupResolver } from '@hookform/resolvers/yup';
+import { spotifySearchValidation } from '../../constants/YupValidation';
+import { useSession } from '@/contexts/AuthContext';
+import { router } from 'expo-router';
+import { View } from '../Themed';
+import { Button, TextInput } from 'react-native';
+import { axiosRequest } from '@/api/axiosDefaults';
 
 type SpotifySearchInputs = {
   query: string;
-}
+};
 
 export default function SpotifySearchForm() {
   const {
@@ -19,12 +18,12 @@ export default function SpotifySearchForm() {
     formState: { errors }, setError
   } = useForm<SpotifySearchInputs>({
     resolver: yupResolver(spotifySearchValidation),
-  })
+  });
 
   const { signIn, isLoading } = useSession();
 
   const onSubmit: SubmitHandler<SpotifySearchInputs> = async (data) => {
-    try{
+    try {
       const query = data.query;
       const response = await axiosRequest.get('auth/spotify/search/', {
         params: { query },
@@ -34,7 +33,7 @@ export default function SpotifySearchForm() {
     } catch (error) {
       console.error('Failed Spotify search:', error);
     }
-  }
+  };
 
   return (
     <View>
@@ -55,7 +54,11 @@ export default function SpotifySearchForm() {
       />
       {errors.query && <span>{errors.query.message}</span>}
 
-      <Button title={isLoading ? 'Searching...' : 'Search'} onPress={handleSubmit(onSubmit)} disabled={isLoading} />
+      <Button
+        title={isLoading ? 'Searching...' : 'Search'}
+        onPress={handleSubmit(onSubmit)}
+        disabled={isLoading}
+      />
     </View>
-  )
+  );
 }
