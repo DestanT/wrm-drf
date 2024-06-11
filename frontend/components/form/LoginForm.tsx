@@ -5,7 +5,7 @@ import { useSession } from '@/contexts/AuthContext';
 import { router } from 'expo-router';
 import { View, Text, Image } from 'react-native';
 import { TextInput } from '../CustomTextInput';
-import { Pressable } from '../CustomButton';
+import Button from '../Button';
 
 type LoginInputs = {
   username: string;
@@ -92,9 +92,7 @@ export default function LoginForm() {
         </View>
 
         {/* Submit Button */}
-        <Pressable onPress={handleSubmit(onSubmit)} disabled={isLoading}>
-          <Text className="text-center">{isLoading ? 'Signing in...' : 'Login'}</Text>
-        </Pressable>
+        <Button onPress={handleSubmit(onSubmit)} disabled={isLoading} title='Login'/>
       </View>
 
       {/* Sign Up Link */}

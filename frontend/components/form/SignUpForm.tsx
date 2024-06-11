@@ -7,7 +7,7 @@ import { View, Text } from 'react-native';
 import axios from 'axios';
 import { Image } from 'react-native';
 import { TextInput } from '../CustomTextInput';
-import { Pressable } from '../CustomButton';
+import Button from '../Button';
 
 type SignUpInputs = {
   username: string;
@@ -113,9 +113,7 @@ export default function SignUpForm() {
         </View>
 
         {/* Submit Button */}
-        <Pressable onPress={handleSubmit(onSubmit)} disabled={isLoading}>
-          <Text className="text-center">{isLoading ? 'Signing up...' : 'Sign Up'}</Text>
-        </Pressable>
+        <Button onPress={handleSubmit(onSubmit)} disabled={isLoading} title='Sign Up'/>
       </View>
 
       {/* Sign In Link */}
