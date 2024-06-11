@@ -7,7 +7,7 @@ import {
   makeRedirectUri,
   useAuthRequest,
 } from 'expo-auth-session';
-import { axiosRequest } from '@/api/axiosDefaults';
+import { axiosInstance } from '@/api/axiosDefaults';
 
 WebBrowser.maybeCompleteAuthSession();
 
@@ -49,7 +49,7 @@ export const useSpotifyAuth = (): SpotifyAuthResponse => {
 
       const getAccessToken = async () => {
         try {
-          const response = await axiosRequest.get('auth/spotify/callback/', {
+          const response = await axiosInstance.get('auth/spotify/callback/', {
             params: { code, code_verifier },
           });
 
