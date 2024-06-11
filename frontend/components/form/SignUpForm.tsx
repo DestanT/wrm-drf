@@ -3,8 +3,7 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { signUpValidation } from '../../constants/YupValidation';
 import { useSession } from '@/contexts/AuthContext';
 import { router } from 'expo-router';
-import { View } from '../Themed';
-import { Button, TextInput } from 'react-native';
+import { View, Button, TextInput } from 'react-native';
 import axios from 'axios';
 
 type SignUpInputs = {

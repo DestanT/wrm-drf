@@ -3,8 +3,7 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { loginValidation } from '../../constants/YupValidation';
 import { useSession } from '@/contexts/AuthContext';
 import { router } from 'expo-router';
-import { View } from '../Themed';
-import { Button, TextInput } from 'react-native';
+import { View, TextInput, Button } from 'react-native';
 
 type LoginInputs = {
   username: string;
