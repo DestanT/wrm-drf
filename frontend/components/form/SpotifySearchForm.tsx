@@ -3,9 +3,8 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { spotifySearchValidation } from '../../constants/YupValidation';
 import { useSession } from '@/contexts/AuthContext';
 import { router } from 'expo-router';
-import { View } from '../Themed';
-import { Button, TextInput } from 'react-native';
-import { axiosRequest } from '@/api/axiosDefaults';
+import { Button, TextInput, View } from 'react-native';
+import { axiosInstance } from '@/api/axiosDefaults';
 
 type SpotifySearchInputs = {
   query: string;
@@ -25,7 +24,7 @@ export default function SpotifySearchForm() {
   const onSubmit: SubmitHandler<SpotifySearchInputs> = async (data) => {
     try {
       const query = data.query;
-      const response = await axiosRequest.get('auth/spotify/search/', {
+      const response = await axiosInstance.get('auth/spotify/search/', {
         params: { query },
       });
       console.log('Spotify search query:', query);
