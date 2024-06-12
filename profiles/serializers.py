@@ -5,6 +5,7 @@ from .models import Profile
 class ProfileSerializer(serializers.ModelSerializer):
     owner = serializers.ReadOnlyField(source='owner.username')
     is_owner = serializers.SerializerMethodField()
+    playlist_count = serializers.ReadOnlyField()
 
     def get_is_owner(self, obj):
         request = self.context['request']
@@ -21,4 +22,4 @@ class ProfileSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Profile
-        fields = ['id', 'owner', 'is_owner', 'created_at', 'image']
+        fields = ['id', 'owner', 'is_owner', 'created_at', 'image', 'playlist_count']
