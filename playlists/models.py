@@ -11,7 +11,7 @@ class Playlist(models.Model):
     )
 
     spotify_id = models.CharField(max_length=255)
-    owner = models.ForeignKey(User, on_delete=models.CASCADE)
+    owner = models.ForeignKey(User, on_delete=models.CASCADE, related_name='playlists')
     season = models.ForeignKey('seasons.Season', on_delete=models.CASCADE, related_name='playlists')
     name = models.CharField(max_length=255)
     image = models.URLField(max_length=255)
