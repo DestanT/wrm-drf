@@ -12,7 +12,6 @@ export default function Avatar({ src, alt, height = 45 }: AvatarProps) {
         source={{ uri: src }}
         style={{ width: height, height: height, borderRadius: height / 2 }}
         accessibilityLabel={alt}
-        className='border-[#716b5b] bg-[#716b5b]'
     />
   )
 }
