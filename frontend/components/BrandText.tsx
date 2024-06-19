@@ -41,8 +41,8 @@ export default function BrandText({ text, fontSize }: BrandTextProps) {
 
 const styles = StyleSheet.create({
   brandTextBackground: {
-    color: '#918c6e',
-    textShadowColor: '#a7a38b',
+    color: '#000',
+    textShadowColor: '#000',
     textShadowOffset: { width: -5, height: 0 },
     textShadowRadius: 5,
     position: 'absolute',
